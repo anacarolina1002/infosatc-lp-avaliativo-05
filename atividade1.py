@@ -1,128 +1,178 @@
-nome=[]
-sobrenome=[]
-email=[]
-senha=[]
-celular=[]
-endereco=[]
-cpf=[]
-import re
+nomeLista=[]
+sobrenomeLista=[]
+senhaLista=[]
+emailLista=[]
+enderecoLista=[]
+cpfLista=[]
+celularLista=[]
+saldoLista=[]
+variavelLista=[]
 
-def menu():
-    print('''
-    1- Depositar
-    2- Sacar
-    3- Conferir Saldo
-    4- Transferir
-    5- Encerrar Conta
-    ''')
-    op = input("Digite a opção desejada: ") 
-    return op 
+def validaNome():
+    nome=input("Insira seu primeiro e segundo nome(se tiver): ")
+    print(nome)
+    if len(nome)<3:
+        op=("Nome menor que o esperado! Insira-o novamente: ")
+        validaNome()       
+    else:
+            pass
+    return nome
 
-def deposito():
-    pass
+def validaSobrenome():
+    sobrenome=input("Insira seu sobrenome: ")
+    print(sobrenome)
+    if len(sobrenome)<3:
+        op=("Sobrenome menor que o esperado! Insira-o novamente: ")
+        validaSobrenome()       
+    else:
+        pass
+    return sobrenome
 
-def saque():
-    pass
+def validaSenha():
+    senha=input("Insira uma senha: ")
+    if(len(senha)<5):
+        print("Senha menor que o esperado! Insira-a novamente: ")
+        validaSenha()#volta para a função de pedir email
+    else:
+        return senha
 
-def confereSaldo():
-    pass
+    if "@"in senha:
+        return senha 
+    else:
+        print("A senha precisa de pelo menos um caractere especial! Ex:@ ")
+        print("Insira-a novamente!")
+        validaSenha()
 
-def transfere():
-    pass
+def validaEmail():
+    email=input("Insira seu e-mail no formato user@email: ")
+    if "@" in email:
+        return email
+    else:
+        print("E-mail inválido! Digite-o novamente:")
+        validaEmail()
 
-def encerrarConta():
-    pass
+def depositarBanco(variavel):
+    deposito=float(input("Insira o valor a ser depositado: "))
+    if deposito>0:
+        print("Valor de",deposito,"R$ depositado com sucesso!")
+        saldoLista[variavel]+=deposito
 
-def nomeVal():
-    print("Nome menor que o esperado!")
-    novoNome=(input("Insira novamente seu nome:"))
-    if (len(novoNome)>=3):
-        nome.replace(nome,novoNome)   
+def saqueBanco(variavel):
+    sacar=float(input("Insira a quantia de saque: "))
+    if sacar <saldoLista[variavel]:
+        print("O valor de",sacar,"R$ foi sacado com sucesso!")
+        saldoLista[variavel]=(saldoLista[variavel])-(sacar)
+    else:
+        print('''Valor ultrapassou os limites de saldo! Digite: 
+        1- Mudar valor
+        2- Voltar ao menu de operações
+        ''')#esse print com ''' eu vi num site e achei que ia ficar bom pro menu 
+        #usei no outro menu tbm
+        op=int(input("Digite o número da opção desejada:"))
+        if op=="1":
+            saqueBanco(variavel)
+        else:
+            menuOperacoes()
+
+def verificaSaldo(variavel):
+    print("Seu saldo equivale a:", saldoLista[variavel], "R$")
+    #essa parte de saldo foi a que mais deu trabalho pq eu queria que ela fosse mudando
+    #de acordo com as operações, daí vi essa forma de fazer em algum código e adaptei pro meu programa
+    
+def transfBanco(variavel):
+    dinheiroTransf=float(input("Valor a ser enviado:"))
+    if dinheiroTransf>0 and dinheiroTransf<saldoLista[variavel]:
+        saldoLista[variavel] = saldoLista[variavel] - (dinheiroTransf)
+    else:
+        print('''Valor ultrapassou os limites de saldo! Digite: 
+        1- Mudar valor
+        2- Voltar ao menu de operações
+        ''')
+        op=int(input("Digite o número da opção desejada:"))
+        if op=="1":
+            transfBanco(variavel)
+        else:
+            menuOperacoes()
+
+def cancelaBanco(variavel):
+    print('''Você deseja mesmo finalizar esta operação? Digite:
+    1-Finalizar
+    2-Voltar ao menu de operações
+     ''')
+    op=int(input("Insira o número da opção desejada: "))
+    if op=="1":
+        print("Finalizando...")
+        print("Operação finalizada!")
+        raise SystemExit 
+    else:
+        menuOperacoes(variavel)
+    return
+
+def loginCliente():
+    clienteEmail=input("Insira seu e-mail: ")
+    clienteSenha=input("Insira sua senha: ")
+    if clienteEmail in emailLista:
+        #o index aqui vai retornar os valores referentes ao que tá no () de cada um
+        if (clienteSenha in senhaLista) and (emailLista.index(clienteEmail)==senhaLista.index(clienteSenha)):
+                menuOperacoes(emailLista.index(clienteEmail))
+        else:
+            print("Senha incorreta! Repita a operação:")
+            loginCliente()
+    else:
+        print("E-mail incorreto! Repita a operação:")
+        loginCliente()
 
 def cadastroDados():
-    nomeCont = 0
-    sobrenomeCont = 0
-    emailCont =0
-    senhaCont=0
-    numClientes=0
-    while numClientes <5:
-        nome=(input("Digite o seu nome:"))
-        if (len(nome)<3):
-            nomeVal()
-        elif (len(nome)>=3):
-            nomeCont+=1
+    nome=validaNome()
+    sobrenome=validaSobrenome()
+    senha=validaSenha()
+    email=validaEmail()
+    cpf=input("Insira seu CPF:")
+    endereco=input("Insira seu endereço:")
+    celular=input("Insira seu número de celular:")
+    if nome!=False or sobrenome!=False or senha!=False or email!=False:
+        nomeLista.append(nome)
+        sobrenomeLista.append(sobrenome)
+        senhaLista.append(senha)
+        emailLista.append(email)
+        enderecoLista.append(endereco)
+        cpfLista.append(cpf)
+        celularLista.append(celular)
+        variavel=nomeLista.index(nome)
+        saldoLista.append(0)
 
-        sobrenome=(input("Digite o seu sobrenome:"))
-        while (len(sobrenome)<3):
-            print("Sobrenome menor que o esperado!")
-            novoSobrenome=str(input("Insira novamente seu sobrenome:"))
-            if(len(novoSobrenome)>=3):
-                sobrenome.replace(sobrenome,novoSobrenome)
-        if (len(sobrenome)>=3 or (len(novoSobrenome)>=3)):
-            sobrenomeCont+=1
-
-        regex = re.compile('@') 
-        email=(input("Digite o seu email:"))
-        while(regex.search(email) == None):
-            print("E-mail incorreto!")
-            novoEmail=(input("Insira um novo e-mail:"))
-            if(regex.search(novoEmail) != None):
-                email.replace(email,novoEmail)
-        if(regex.search(email) != None or (regex.search(novoEmail) != None)):
-            emailCont+=1
-
-
-        senha=(input("Digite sua senha:"))
-        while (len(senha)<5):
-            print("Senha menor que o esperado!")
-            novaSenha=str(input("Insira novamente sua senha:"))
-            senha.replace(senha,novaSenha)
-        if (len(senha)>=5):
-            senhaCont+=1
-
-        regex = re.compile('[@_!#$%^&*()<>?/\|}{~:]') 
-        while (regex.search(senha) == None):
-            senhaNova=(input("Insira novamente sua senha:"))
-            senha.replace(senha,senhaNova)
-        if senha:
-            senhaCont+=1
-
-        cpf=(int(input("Digite seu cpf:")))
-        endereco=(str(input("Digite seu endereço:")))
-        celular=(str(input("Insira seu número de celular:")))
-
-        numClientes = numClientes + 1
-
-    if nomeCont==1 and sobrenomeCont==1 and emailCont==1 and senhaCont==1:
-        print("Iniciando...")
-        menu()
-
-cadastroPessoa=input("Iniciar cadastro: 1-Sim ou 2-Não")
-if cadastroPessoa=="1":
-    print("Iniciando...")
-    cadastroDados()
-else:
-    SystemExit
-
-def lerOpcoes ():  
-    pass  
-    lerOpcoes() 
-    opcao = menu() 
-    while opcao != "9": 
-        if opcao=="1": 
-            deposito() 
-        elif opcao=="2":
-            saque()
-        elif opcao=="3":
-            confereSaldo()
-        elif opcao=="4":
-            transfere()
-        elif opcao=="5":
-            encerrarConta()
-
-    opcao = menu() 
-
-
-
-
-
+def menuOperacoes(variavel):
+    while True:#''' de novo
+        print('''
+        1-Depósito
+        2-Saque
+        3-Verificação de saldo
+        4-Transferência Bancária
+        5- Finalizar operação''')
+        op=int(input("Insira o número da operação escolhida: "))
+        if op==1:
+            depositarBanco(variavel)
+        if op==2:
+            saqueBanco(variavel)
+        if op==3:
+            verificaSaldo(variavel)
+        if op==4:
+            transfBanco(variavel)
+        if op==5:
+            cancelaBanco(variavel)
+            
+def menuOpcoes():
+    while True:
+        print('''
+        1-Cadastro de cliente 
+        2-Login de cliente 
+        3-Sair ''')
+        op = int(input("Insira o número da opção desejada: "))
+        if(op==1):
+            cadastroDados()
+        if(op==2):
+            loginCliente()
+        if(op==3):
+            raise SystemExit
+    return
+menuOpcoes()
