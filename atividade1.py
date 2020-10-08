@@ -140,6 +140,13 @@ def cadastroDados():
         celularLista.append(celular)
         variavel=nomeLista.index(nome)
         saldoLista.append(0)
+        print(f'''
+Nome completo: {nome} {sobrenome} 
+Senha: {senha} 
+E-mail: {email} 
+Endereço: {endereco} 
+CPF: {cpf} 
+Celular: {celular}''')
 
 def menuOperacoes(variavel):
     while True:#''' de novo
