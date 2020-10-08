@@ -108,20 +108,6 @@ def cancelaBanco(variavel):
         menuOperacoes(variavel)
     return
 
-def loginCliente():
-    clienteEmail=input("Insira seu e-mail: ")
-    clienteSenha=input("Insira sua senha: ")
-    if clienteEmail in emailLista:
-        #o index aqui vai retornar os valores referentes ao que tá no () de cada um
-        if (clienteSenha in senhaLista) and (emailLista.index(clienteEmail)==senhaLista.index(clienteSenha)):
-                menuOperacoes(emailLista.index(clienteEmail))
-        else:
-            print("Senha incorreta! Repita a operação:")
-            loginCliente()
-    else:
-        print("E-mail incorreto! Repita a operação:")
-        loginCliente()
-
 def cadastroDados():
     nome=validaNome()
     sobrenome=validaSobrenome()
@@ -172,14 +158,11 @@ def menuOpcoes():
     while True:
         print('''
         1-Cadastro de cliente 
-        2-Login de cliente 
-        3-Sair ''')
+        2-Sair ''')
         op = int(input("Insira o número da opção desejada: "))
         if(op==1):
             cadastroDados()
         if(op==2):
-            loginCliente()
-        if(op==3):
             raise SystemExit
     return
 menuOpcoes()
