@@ -7,6 +7,7 @@ cpfLista=[]
 celularLista=[]
 saldoLista=[]
 variavelLista=[]
+listaGeral=[]
 
 def validaNome():#def onde o nome vai ser perguntado e depois uma linha de comandos vai ser executada
     nome=input("Insira seu primeiro e segundo nome(se tiver): ")#pergunta e inserção do nome
@@ -110,7 +111,7 @@ def cancelaBanco(variavel):
     return
 
 
-def consultaCliente(variavel):
+def consultaCliente(variavel):#aqui busca o cliente pela posição dele [variavel] e imprime os dados
     print("Buscando...")
     print("Pessoa encontrada!")
     print("Nome: ",nomeLista[variavel])
@@ -122,7 +123,7 @@ def consultaCliente(variavel):
     print("Celular: ",celularLista[variavel])
     print("Saldo da conta:",saldoLista[variavel])
 
-def consultaLista(): 
+def consultaLista(): #aqui mostra todas as pessoas com os dados delas
     tamanhoLista=(len(nomeLista))
     for variavel in range(tamanhoLista):
         print("Nome: ",nomeLista[variavel])
@@ -134,7 +135,7 @@ def consultaLista():
         print("Celular: ",celularLista[variavel])
         print("Saldo da conta: ",saldoLista[variavel])
 
-def delCliente(variavel):
+def delCliente(variavel): #aqui apaga tudo de um determinado cliente, eu tentei usar uma lista só mas n deu muito certo 
     del nomeLista[variavel]
     del sobrenomeLista[variavel]
     del senhaLista[variavel]
@@ -146,7 +147,7 @@ def delCliente(variavel):
     print("Lista com cliente removido: ")
     consultaLista()
 
-def atualizaCliente(variavel):
+def atualizaCliente(variavel):#aqui muda o valor de alguma opção que o cliente quiser mudar
     print('''Informações disponíveis para alteração:
     1-Nome
     2-Sobrenome
@@ -156,12 +157,12 @@ def atualizaCliente(variavel):
     6-Celular
     7-Senha
     ''')
-    menuAtualização(variavel)
+    menuAtualização(variavel)#aqui ele vai pro menu com as opções de mudança
 
 def menuAtualização(variavel):
     op=int(input("Insira a opção que será atualizada: "))
     if op==1:
-        nomeLista[variavel]=validaNome()
+        nomeLista[variavel]=validaNome()#cada um pede o valor alterado e imprime a lista com o valor alterado
         print("Lista com valor alterado:")
         consultaLista()
     elif op==2:
@@ -188,6 +189,7 @@ def menuAtualização(variavel):
         senhaLista[variavel]=validaSenha()
         print("Lista com valor alterado:")
         consultaLista()
+
 def operacoesAdm(variavel):
     print('''
 1- Consultar um cliente
@@ -207,15 +209,15 @@ def loginUsuario(variavel):
     operacoesAdm(variavel)
 
 def cadastroDados():
-    nome=validaNome()
+    nome=validaNome()#somente esses são () pq eles tem validações pra funcionar
     sobrenome=validaSobrenome()
     senha=validaSenha()
     email=validaEmail()
     cpf=input("Insira seu CPF:")
     endereco=input("Insira seu endereço:")
     celular=input("Insira seu número de celular:")
-    if nome!=False or sobrenome!=False or senha!=False or email!=False:
-        nomeLista.append(nome)
+    if nome!=False or sobrenome!=False or senha!=False or email!=False:#se todas as informações retornaram em true
+        nomeLista.append(nome)#esse append funciona como um englobamento, nomeLista engloba a variavel nome
         sobrenomeLista.append(sobrenome)
         senhaLista.append(senha)
         emailLista.append(email)
@@ -232,7 +234,7 @@ Endereço: {endereco}
 CPF: {cpf} 
 Celular: {celular}''')
 
-def menuAdm(variavel):
+def menuAdm(variavel):#menu de opções do administrador
     op=(int(input("Insira a opção escolhida: ")))
     if op==1:
         print("Carregando...")
@@ -286,4 +288,4 @@ def menuOpcoes(variavel):
             raise SystemExit
     return
 variavel=[]
-menuOpcoes(variavel)
+menuOpcoes(variavel)#programa começa
